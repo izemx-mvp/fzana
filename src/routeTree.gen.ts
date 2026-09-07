@@ -10,33 +10,102 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AProposRouteImport } from './routes/a-propos'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MarchesPublicsRouteImport } from './routes/marches-publics'
+import { Route as EquipementsIndexRouteImport } from './routes/equipements.index'
+import { Route as EquipementsIdRouteImport } from './routes/equipements.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AProposRoute = AProposRouteImport.update({
+  id: '/a-propos',
+  path: '/a-propos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarchesPublicsRoute = MarchesPublicsRouteImport.update({
+  id: '/marches-publics',
+  path: '/marches-publics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquipementsIndexRoute = EquipementsIndexRouteImport.update({
+  id: '/equipements/',
+  path: '/equipements/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquipementsIdRoute = EquipementsIdRouteImport.update({
+  id: '/equipements/$id',
+  path: '/equipements/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
+  '/contact': typeof ContactRoute
+  '/marches-publics': typeof MarchesPublicsRoute
+  '/equipements/$id': typeof EquipementsIdRoute
+  '/equipements/': typeof EquipementsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
+  '/contact': typeof ContactRoute
+  '/marches-publics': typeof MarchesPublicsRoute
+  '/equipements/$id': typeof EquipementsIdRoute
+  '/equipements': typeof EquipementsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/a-propos': typeof AProposRoute
+  '/contact': typeof ContactRoute
+  '/marches-publics': typeof MarchesPublicsRoute
+  '/equipements/$id': typeof EquipementsIdRoute
+  '/equipements/': typeof EquipementsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/a-propos'
+    | '/contact'
+    | '/marches-publics'
+    | '/equipements/$id'
+    | '/equipements/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/a-propos'
+    | '/contact'
+    | '/marches-publics'
+    | '/equipements/$id'
+    | '/equipements'
+  id:
+    | '__root__'
+    | '/'
+    | '/a-propos'
+    | '/contact'
+    | '/marches-publics'
+    | '/equipements/$id'
+    | '/equipements/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AProposRoute: typeof AProposRoute
+  ContactRoute: typeof ContactRoute
+  MarchesPublicsRoute: typeof MarchesPublicsRoute
+  EquipementsIdRoute: typeof EquipementsIdRoute
+  EquipementsIndexRoute: typeof EquipementsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +117,51 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/a-propos': {
+      id: '/a-propos'
+      path: '/a-propos'
+      fullPath: '/a-propos'
+      preLoaderRoute: typeof AProposRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marches-publics': {
+      id: '/marches-publics'
+      path: '/marches-publics'
+      fullPath: '/marches-publics'
+      preLoaderRoute: typeof MarchesPublicsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equipements/': {
+      id: '/equipements/'
+      path: '/equipements'
+      fullPath: '/equipements/'
+      preLoaderRoute: typeof EquipementsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equipements/$id': {
+      id: '/equipements/$id'
+      path: '/equipements/$id'
+      fullPath: '/equipements/$id'
+      preLoaderRoute: typeof EquipementsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AProposRoute: AProposRoute,
+  ContactRoute: ContactRoute,
+  MarchesPublicsRoute: MarchesPublicsRoute,
+  EquipementsIdRoute: EquipementsIdRoute,
+  EquipementsIndexRoute: EquipementsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
