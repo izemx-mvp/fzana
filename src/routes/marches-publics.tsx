@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 
 import CtaBand from "@/components/CtaBand";
+import { CircuitProcess, PulseDivider, TrustBadge } from "@/components/BrandMotion";
 import PageHero from "@/components/PageHero";
 import SiteLayout from "@/components/SiteLayout";
 
@@ -31,6 +32,8 @@ export const Route = createFileRoute("/marches-publics")({
         content:
           "Une réponse technique et administrative complète aux appels d'offres d'équipements médicaux au Maroc.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: MarchesPublics,
@@ -102,32 +105,19 @@ function MarchesPublics() {
         description="FZANA Systems accompagne les établissements publics et les acheteurs hospitaliers sur l'ensemble du cycle de l'appel d'offres : compréhension du besoin, conformité technique du matériel proposé et complétude du dossier remis."
       />
 
-      <section className="py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section py-16 sm:py-20">
         <div className="container-fz">
           <p className="eyebrow">Notre processus</p>
           <h2 className="mt-3 text-2xl sm:text-3xl">
             De la veille au dépôt du dossier
           </h2>
-          <ol className="mt-8 grid gap-5 md:grid-cols-2">
-            {etapes.map((etape, index) => (
-              <li key={etape.titre} className="surface-card p-6">
-                <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 shrink-0 place-items-center rounded-md bg-primary font-display text-sm font-bold text-primary-foreground">
-                    0{index + 1}
-                  </span>
-                  <etape.icone size={22} className="text-accent" />
-                </div>
-                <h3 className="mt-4 text-lg">{etape.titre}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {etape.texte}
-                </p>
-              </li>
-            ))}
-          </ol>
+          <CircuitProcess steps={etapes} columns="lg:grid-cols-2" />
         </div>
       </section>
 
-      <section className="bg-secondary py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section-soft py-16 sm:py-20">
         <div className="container-fz grid gap-10 lg:grid-cols-2">
           <div>
             <p className="eyebrow">Documentation</p>
@@ -150,15 +140,7 @@ function MarchesPublics() {
           </div>
           <div className="grid gap-5">
             {engagements.map((item) => (
-              <div key={item.titre} className="surface-card p-6">
-                <span className="grid h-11 w-11 place-items-center rounded-md bg-accent-soft text-accent">
-                  <item.icone size={22} />
-                </span>
-                <h3 className="mt-4 text-lg">{item.titre}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {item.texte}
-                </p>
-              </div>
+              <TrustBadge key={item.titre} icon={item.icone} label={item.titre} detail={item.texte} />
             ))}
           </div>
         </div>

@@ -3,6 +3,7 @@ import { Building2, Network, ShieldCheck, Target, Timer } from "lucide-react";
 
 import hero from "@/assets/hero-hospital.jpg";
 import CtaBand from "@/components/CtaBand";
+import { PulseDivider, TrustBadge } from "@/components/BrandMotion";
 import PageHero from "@/components/PageHero";
 import SiteLayout from "@/components/SiteLayout";
 
@@ -24,6 +25,8 @@ export const Route = createFileRoute("/a-propos")({
         content:
           "Notre mission : sécuriser l'approvisionnement en équipements médicaux des établissements de santé au Maroc.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: APropos,
@@ -59,9 +62,10 @@ function APropos() {
         description="Nous fournissons les établissements de santé marocains — publics et privés — en équipements médicaux, en accordant une place centrale à la conformité technique et documentaire de chaque offre."
       />
 
-      <section className="py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section py-16 sm:py-20">
         <div className="container-fz grid items-center gap-10 lg:grid-cols-2">
-          <div>
+          <div className="section-reveal">
             <p className="eyebrow">Notre mission</p>
             <h2 className="mt-3 text-2xl sm:text-3xl">
               Sécuriser l'achat d'équipements médicaux
@@ -88,7 +92,7 @@ function APropos() {
               </p>
             </div>
           </div>
-          <div className="surface-card overflow-hidden">
+          <div className="surface-card section-reveal reveal-delay-1 overflow-hidden">
             <img
               src={hero}
               alt="Environnement hospitalier équipé"
@@ -101,27 +105,21 @@ function APropos() {
         </div>
       </section>
 
-      <section className="bg-secondary py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section-soft py-16 sm:py-20">
         <div className="container-fz">
           <p className="eyebrow">Nos valeurs</p>
           <h2 className="mt-3 text-2xl sm:text-3xl">Ce qui structure notre travail</h2>
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
+          <div className="mt-8 grid gap-5 md:grid-cols-3 md:grid-rows-2">
             {valeurs.map((valeur) => (
-              <div key={valeur.titre} className="surface-card p-6">
-                <span className="grid h-11 w-11 place-items-center rounded-md bg-primary text-primary-foreground">
-                  <valeur.icone size={22} />
-                </span>
-                <h3 className="mt-4 text-lg">{valeur.titre}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {valeur.texte}
-                </p>
-              </div>
+              <TrustBadge key={valeur.titre} icon={valeur.icone} label={valeur.titre} detail={valeur.texte} className={valeur === valeurs[0] ? "md:row-span-2 md:flex md:items-center" : "md:col-span-2"} />
             ))}
           </div>
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section py-16 sm:py-20">
         <div className="container-fz grid gap-10 lg:grid-cols-2">
           <div>
             <p className="eyebrow">Réseau fournisseurs</p>
