@@ -1,6 +1,7 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import CtaBand from "@/components/CtaBand";
+import { PulseDivider } from "@/components/BrandMotion";
 import EquipementCard from "@/components/EquipementCard";
 import PageHero from "@/components/PageHero";
 import SiteLayout from "@/components/SiteLayout";
@@ -31,6 +32,8 @@ export const Route = createFileRoute("/equipements/")({
         content:
           "Parcourez nos gammes d'équipements médicaux destinés aux établissements de santé et aux marchés publics.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Catalogue,
@@ -51,9 +54,10 @@ function Catalogue() {
         description="Nos gammes couvrent l'équipement des blocs opératoires, le diagnostic, le mobilier hospitalier, les soins intensifs, les consommables et la stérilisation. Les références présentées sont des exemples représentatifs : nous constituons l'offre en fonction des spécifications de chaque cahier des charges."
       />
 
-      <section className="py-14 sm:py-16">
+      <PulseDivider />
+      <section className="clinical-section py-14 sm:py-16">
         <div className="container-fz grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)]">
-          <aside>
+          <aside className="section-reveal lg:sticky lg:top-28 lg:self-start">
             <h2 className="font-display text-sm font-bold tracking-widest text-charcoal uppercase">
               Catégories
             </h2>
@@ -86,7 +90,7 @@ function Catalogue() {
             </div>
           </aside>
 
-          <div>
+          <div className="section-reveal">
             <div className="grid gap-4 border-b border-border pb-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
               <div className="min-w-0">
                 <h2 className="text-xl sm:text-2xl">
@@ -103,9 +107,14 @@ function Catalogue() {
               </p>
             </div>
 
-            <div className="mt-6 grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-6 grid auto-rows-[minmax(0,1fr)] gap-5 sm:grid-cols-2 xl:grid-cols-3">
               {liste.map((equipement) => (
-                <EquipementCard key={equipement.id} equipement={equipement} />
+                <div
+                  key={equipement.id}
+                  className={liste.length > 3 && equipement === liste[0] ? "sm:col-span-2" : ""}
+                >
+                  <EquipementCard equipement={equipement} />
+                </div>
               ))}
             </div>
           </div>

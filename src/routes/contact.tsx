@@ -3,6 +3,7 @@ import { Check, ChevronDown, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 
 import PageHero from "@/components/PageHero";
+import { PulseDivider } from "@/components/BrandMotion";
 import SiteLayout from "@/components/SiteLayout";
 
 export const Route = createFileRoute("/contact")({
@@ -20,6 +21,8 @@ export const Route = createFileRoute("/contact")({
         content:
           "Formulaire de contact pour les établissements de santé et les acheteurs publics.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Contact,
@@ -60,9 +63,10 @@ function Contact() {
         description="Demande de devis, fiche technique ou consultation en cours : décrivez votre besoin et notre équipe revient vers vous avec une réponse documentée."
       />
 
-      <section className="py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section py-16 sm:py-20">
         <div className="container-fz grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
-          <div className="surface-card p-6 sm:p-8">
+          <div className="surface-card section-reveal p-6 sm:p-8">
             {envoye ? (
               <div className="py-8 text-center">
                 <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-accent-soft text-accent">
@@ -142,7 +146,7 @@ function Contact() {
             )}
           </div>
 
-          <div className="grid gap-5">
+          <div className="grid gap-5 section-reveal reveal-delay-1">
             <div className="surface-card p-6">
               <h2 className="text-lg">Coordonnées</h2>
               <ul className="mt-4 space-y-4 text-sm">
@@ -186,13 +190,14 @@ function Contact() {
         </div>
       </section>
 
-      <section className="bg-secondary py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section-soft py-16 sm:py-20">
         <div className="container-fz max-w-3xl">
           <p className="eyebrow">Questions fréquentes</p>
           <h2 className="mt-3 text-2xl sm:text-3xl">Ce que les acheteurs demandent</h2>
           <div className="mt-8 grid gap-3">
             {faq.map((item, index) => (
-              <div key={item.question} className="surface-card overflow-hidden">
+              <div key={item.question} className="surface-card section-reveal overflow-hidden">
                 <button
                   type="button"
                   onClick={() => setOuvert(ouvert === index ? null : index)}

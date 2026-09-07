@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import hero from "@/assets/hero-hospital.jpg";
+import { CircuitProcess, EcgLine, MetricCounter, PulseDivider, TrustBadge } from "@/components/BrandMotion";
 import CtaBand from "@/components/CtaBand";
 import EquipementCard from "@/components/EquipementCard";
 import SiteLayout from "@/components/SiteLayout";
@@ -38,6 +39,8 @@ export const Route = createFileRoute("/")({
         content:
           "Distribution d'équipements médicaux pour hôpitaux et cliniques, avec une expertise dédiée aux marchés publics.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Accueil,
@@ -132,21 +135,23 @@ const temoignages = [
 function Accueil() {
   return (
     <SiteLayout>
-      <section className="relative overflow-hidden bg-primary text-white">
+      <section className="relative overflow-hidden bg-primary text-primary-foreground">
         <img
           src={hero}
           alt="Couloir hospitalier équipé de matériel médical"
           width={1600}
           height={1000}
-          className="absolute inset-0 h-full w-full object-cover opacity-25"
+          className="absolute inset-0 h-full w-full object-cover opacity-20"
         />
+        <div className="absolute inset-0 clinical-section-soft opacity-10" aria-hidden="true" />
+        <EcgLine className="absolute inset-x-0 top-16 h-28 opacity-45" />
         <div className="relative container-fz py-20 sm:py-28">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl section-reveal">
             <p className="eyebrow">Distribution d'équipements médicaux — Maroc</p>
-            <h1 className="mt-4 text-3xl leading-tight text-white sm:text-5xl">
+            <h1 className="mt-4 text-3xl leading-tight text-primary-foreground sm:text-5xl">
               Le partenaire des établissements de santé et des marchés publics
             </h1>
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/85 sm:text-lg">
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-primary-foreground/85 sm:text-lg">
               FZANA Systems approvisionne hôpitaux, cliniques et structures de soins en
               équipements médicaux certifiés, et accompagne les acheteurs publics dans la
               réponse technique et administrative à leurs appels d'offres.
@@ -164,25 +169,16 @@ function Accueil() {
         </div>
       </section>
 
-      <section className="border-b border-border bg-secondary py-10">
-        <div className="container-fz grid gap-6 md:grid-cols-3">
+      <section className="clinical-section-soft border-b border-border py-10">
+        <div className="container-fz grid gap-5 md:grid-cols-3">
           {confiance.map((item) => (
-            <div key={item.titre} className="flex min-w-0 gap-4">
-              <span className="grid h-11 w-11 shrink-0 place-items-center rounded-md bg-accent-soft text-accent">
-                <item.icone size={22} />
-              </span>
-              <div className="min-w-0">
-                <h3 className="text-base">{item.titre}</h3>
-                <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                  {item.texte}
-                </p>
-              </div>
-            </div>
+            <TrustBadge key={item.titre} icon={item.icone} label={item.titre} detail={item.texte} />
           ))}
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section py-16 sm:py-20">
         <div className="container-fz">
           <p className="eyebrow">Nos domaines</p>
           <div className="mt-3 grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
@@ -195,15 +191,15 @@ function Accueil() {
             </Link>
           </div>
 
-          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {categories.map((categorie) => (
+          <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:grid-rows-2">
+            {categories.map((categorie, index) => (
               <Link
                 key={categorie.id}
                 to="/equipements"
                 search={{ categorie: categorie.id }}
-                className="surface-card group overflow-hidden transition-colors hover:border-accent"
+                className={`surface-card group section-reveal flex flex-col overflow-hidden ${index === 0 ? "lg:col-span-2 lg:row-span-2" : index === 1 || index === 4 ? "lg:col-span-2" : ""}`}
               >
-                <div className="aspect-16/10 overflow-hidden bg-secondary">
+                <div className={`${index === 0 ? "min-h-64 flex-1 lg:min-h-[22rem]" : "h-44"} overflow-hidden bg-secondary`}>
                   <img
                     src={categorie.image}
                     alt={categorie.nom}
@@ -225,16 +221,17 @@ function Accueil() {
         </div>
       </section>
 
-      <section className="bg-secondary py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section-soft py-16 sm:py-20">
         <div className="container-fz">
           <p className="eyebrow">Pourquoi FZANA Systems</p>
           <h2 className="mt-3 max-w-2xl text-2xl sm:text-3xl">
             Une approche conformité d'abord, du chiffrage à la livraison
           </h2>
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
+          <div className="mt-8 grid gap-5 md:grid-cols-4 md:grid-rows-2">
             {raisons.map((raison) => (
-              <div key={raison.titre} className="surface-card p-6">
-                <span className="grid h-11 w-11 place-items-center rounded-md bg-primary text-primary-foreground">
+              <div key={raison.titre} className={`surface-card section-reveal p-6 ${raison === raisons[0] ? "md:col-span-2 md:row-span-2 md:p-8" : "md:col-span-2"}`}>
+                <span className="signal-node grid h-11 w-11 place-items-center rounded-md bg-primary text-primary-foreground">
                   <raison.icone size={22} />
                 </span>
                 <h3 className="mt-4 text-lg">{raison.titre}</h3>
@@ -243,30 +240,28 @@ function Accueil() {
                 </p>
               </div>
             ))}
+            <div className="technical-panel scan-badge scan-sweep section-reveal flex items-center justify-between gap-5 p-6 md:col-span-4">
+              <div>
+                <p className="eyebrow">Capacité opérationnelle</p>
+                <p className="mt-2 text-sm text-muted-foreground">Gammes suivies et premier retour sur demande institutionnelle.</p>
+              </div>
+              <div className="flex shrink-0 gap-8 text-center">
+                <div><strong className="block font-display text-3xl text-primary"><MetricCounter value={categories.length} /></strong><span className="text-xs text-muted-foreground">catégories</span></div>
+                <div><strong className="block font-display text-3xl text-primary"><MetricCounter value={48} suffix="h" /></strong><span className="text-xs text-muted-foreground">premier retour</span></div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section py-16 sm:py-20">
         <div className="container-fz">
           <p className="eyebrow">Notre méthode</p>
           <h2 className="mt-3 text-2xl sm:text-3xl">
             Comment nous répondons à un appel d'offres
           </h2>
-          <ol className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {etapes.map((etape, index) => (
-              <li key={etape.titre} className="surface-card border-t-4 border-t-accent p-6">
-                <span className="font-display text-sm font-bold tracking-widest text-accent">
-                  0{index + 1}
-                </span>
-                <etape.icone size={24} className="mt-3 text-primary" />
-                <h3 className="mt-3 text-base">{etape.titre}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                  {etape.texte}
-                </p>
-              </li>
-            ))}
-          </ol>
+          <CircuitProcess steps={etapes} />
           <Link
             to="/marches-publics"
             className="btn-base btn-outline mt-8"
@@ -277,7 +272,8 @@ function Accueil() {
         </div>
       </section>
 
-      <section className="bg-secondary py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section-soft py-16 sm:py-20">
         <div className="container-fz">
           <p className="eyebrow">Références</p>
           <h2 className="mt-3 text-2xl sm:text-3xl">Témoignages (exemples génériques)</h2>
@@ -288,7 +284,7 @@ function Accueil() {
           </p>
           <div className="mt-8 grid gap-5 md:grid-cols-3">
             {temoignages.map((temoignage) => (
-              <blockquote key={temoignage.auteur} className="surface-card p-6">
+              <blockquote key={temoignage.auteur} className="surface-card section-reveal p-6">
                 <Quote size={22} className="text-accent" />
                 <p className="mt-3 text-sm leading-relaxed text-foreground">
                   {temoignage.citation}
@@ -305,7 +301,8 @@ function Accueil() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20">
+      <PulseDivider />
+      <section className="clinical-section py-16 sm:py-20">
         <div className="container-fz">
           <p className="eyebrow">Sélection</p>
           <h2 className="mt-3 text-2xl sm:text-3xl">Équipements mis en avant</h2>

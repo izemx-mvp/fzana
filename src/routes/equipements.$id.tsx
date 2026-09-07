@@ -3,6 +3,7 @@ import { ArrowLeft, BadgeCheck, Check, FileText, PlusCircle } from "lucide-react
 import { useState } from "react";
 
 import CtaBand from "@/components/CtaBand";
+import { PulseDivider } from "@/components/BrandMotion";
 import EquipementCard from "@/components/EquipementCard";
 import SiteLayout from "@/components/SiteLayout";
 import { equipements, getCategorie, getEquipement } from "@/data/equipements";
@@ -29,6 +30,8 @@ export const Route = createFileRoute("/equipements/$id")({
         { name: "description", content: equipement.resume },
         { property: "og:title", content: `${equipement.nom} — FZANA Systems` },
         { property: "og:description", content: equipement.resume },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
       ],
     };
   },
@@ -65,7 +68,7 @@ function EquipementDetail() {
 
   return (
     <SiteLayout>
-      <div className="border-b border-border bg-secondary py-5">
+      <div className="clinical-section-soft border-b border-border py-5">
         <div className="container-fz">
           <Link
             to="/equipements"
@@ -78,9 +81,9 @@ function EquipementDetail() {
         </div>
       </div>
 
-      <section className="py-12 sm:py-16">
+      <section className="clinical-section py-12 sm:py-16">
         <div className="container-fz grid gap-10 lg:grid-cols-2">
-          <div>
+          <div className="section-reveal">
             <div className="surface-card aspect-4/3 overflow-hidden">
               <img
                 src={galerie[imageActive]}
@@ -114,7 +117,7 @@ function EquipementDetail() {
             </div>
           </div>
 
-          <div>
+          <div className="section-reveal reveal-delay-1">
             <p className="eyebrow">{categorie?.nom}</p>
             <h1 className="mt-3 text-2xl sm:text-3xl">{equipement.nom}</h1>
             <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
@@ -135,7 +138,7 @@ function EquipementDetail() {
               </tbody>
             </table>
 
-            <div className="mt-6 flex gap-3 rounded-md bg-accent-soft p-4">
+            <div className="scan-badge scan-sweep mt-6 flex gap-3 rounded-md border border-accent/30 bg-accent-soft p-4">
               <BadgeCheck size={20} className="mt-0.5 shrink-0 text-accent" />
               <p className="text-sm leading-relaxed text-charcoal">
                 Certificat d'enregistrement et documentation constructeur disponibles sur
@@ -186,7 +189,7 @@ function EquipementDetail() {
       </section>
 
       {similaires.length > 0 && (
-        <section className="bg-secondary py-14 sm:py-16">
+        <><PulseDivider /><section className="clinical-section-soft py-14 sm:py-16">
           <div className="container-fz">
             <p className="eyebrow">Même catégorie</p>
             <h2 className="mt-3 text-2xl">Équipements associés</h2>
@@ -196,7 +199,7 @@ function EquipementDetail() {
               ))}
             </div>
           </div>
-        </section>
+        </section></>
       )}
 
       <CtaBand />

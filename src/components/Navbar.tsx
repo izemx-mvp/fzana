@@ -16,7 +16,7 @@ export default function Navbar() {
   const [ouvert, setOuvert] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-border/80 bg-background/90 shadow-[0_12px_40px_-32px_var(--color-primary)] backdrop-blur-xl">
       <div className="container-fz grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3 lg:flex lg:justify-between">
         <Link to="/" className="flex min-w-0 items-center" onClick={() => setOuvert(false)}>
           <img

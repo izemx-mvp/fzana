@@ -9,7 +9,7 @@ export default function Footer() {
   const [inscrit, setInscrit] = useState(false);
 
   return (
-    <footer className="bg-primary-dark text-white/80">
+    <footer className="relative overflow-hidden bg-primary-dark text-primary-foreground/80">
       <div className="container-fz grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-3">
@@ -21,7 +21,7 @@ export default function Footer() {
               loading="lazy"
               className="h-11 w-11 shrink-0"
             />
-            <span className="font-display text-lg font-bold tracking-tight text-white">
+            <span className="font-display text-lg font-bold tracking-tight text-primary-foreground">
               FZANA SYSTEMS
             </span>
           </div>
@@ -32,7 +32,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="font-display text-sm font-bold tracking-widest text-white uppercase">
+          <h3 className="font-display text-sm font-bold tracking-widest text-primary-foreground uppercase">
             Catégories
           </h3>
           <ul className="mt-4 space-y-2 text-sm">
@@ -51,7 +51,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="font-display text-sm font-bold tracking-widest text-white uppercase">
+          <h3 className="font-display text-sm font-bold tracking-widest text-primary-foreground uppercase">
             Contact
           </h3>
           <ul className="mt-4 space-y-3 text-sm">
@@ -83,14 +83,14 @@ export default function Footer() {
         </div>
 
         <div>
-          <h3 className="font-display text-sm font-bold tracking-widest text-white uppercase">
+          <h3 className="font-display text-sm font-bold tracking-widest text-primary-foreground uppercase">
             Rester informé
           </h3>
           <p className="mt-4 text-sm">
             Recevez nos mises à jour catalogue et nos capacités techniques.
           </p>
           {inscrit ? (
-            <p className="mt-4 flex items-center gap-2 rounded-md bg-accent/15 px-3 py-3 text-sm text-white">
+            <p className="mt-4 flex items-center gap-2 rounded-md bg-accent/15 px-3 py-3 text-sm text-primary-foreground">
               <Check size={18} className="shrink-0 text-accent" />
               Inscription enregistrée. Merci.
             </p>
@@ -110,7 +110,7 @@ export default function Footer() {
                 type="email"
                 required
                 placeholder="Adresse e-mail professionnelle"
-                className="rounded-md border border-white/25 bg-white/10 px-3 py-2.5 text-sm text-white placeholder:text-white/50 focus:border-accent focus:outline-none"
+                className="rounded-md border border-primary-foreground/25 bg-primary-foreground/10 px-3 py-2.5 text-sm text-primary-foreground placeholder:text-primary-foreground/50 focus:border-accent focus:outline-none"
               />
               <button type="submit" className="btn-base btn-accent">
                 S'inscrire
@@ -120,7 +120,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-white/10">
+      <div className="border-t border-primary-foreground/10">
         <div className="container-fz flex flex-col gap-2 py-5 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} FZANA Systems. Tous droits réservés.</p>
           <p>Informations légales à compléter.</p>
