@@ -1,9 +1,9 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
+import { ArrowRight, BadgeCheck, ClipboardCheck, FileText } from "lucide-react";
 
-import CtaBand from "@/components/CtaBand";
+import heroFallback from "@/assets/hero-hospital.jpg";
 import { PulseDivider } from "@/components/BrandMotion";
-import EquipementCard from "@/components/EquipementCard";
-import PageHero from "@/components/PageHero";
+import CtaBand from "@/components/CtaBand";
 import SiteLayout from "@/components/SiteLayout";
 import { categories, equipements, type CategorieId } from "@/data/equipements";
 
@@ -45,78 +45,230 @@ function Catalogue() {
     ? equipements.filter((equipement) => equipement.categorie === categorie)
     : equipements;
   const active = categories.find((item) => item.id === categorie);
+  const countFor = (id: CategorieId) => equipements.filter((e) => e.categorie === id).length;
 
   return (
     <SiteLayout>
-      <PageHero
-        eyebrow="Catalogue"
-        titre="Équipements et consommables médicaux"
-        description="Nos gammes couvrent l'équipement des blocs opératoires, le diagnostic, le mobilier hospitalier, les soins intensifs, les consommables et la stérilisation. Les références présentées sont des exemples représentatifs : nous constituons l'offre en fonction des spécifications de chaque cahier des charges."
-      />
+      {/* HEADER — duotone-treated photo, restrained typography, no gradient theatrics */}
+      <section className="relative overflow-hidden bg-primary text-primary-foreground">
+        <div className="absolute inset-0">
+          <img
+            src={active?.image ?? heroFallback}
+            alt=""
+            role="presentation"
+            className="h-full w-full object-cover opacity-[0.35] grayscale"
+          />
+          <div className="absolute inset-0 bg-primary mix-blend-color" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/80 to-primary/20" aria-hidden="true" />
+        </div>
+
+        <div className="container-fz relative py-20 sm:py-28">
+          <div className="flex items-baseline gap-4">
+            <span className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-primary-foreground/50">
+              Index
+            </span>
+            <span className="h-px flex-1 bg-primary-foreground/15" />
+            <span className="font-display text-xs font-medium tabular-nums text-primary-foreground/50">
+              {String(liste.length).padStart(2, "0")} référence{liste.length > 1 ? "s" : ""}
+            </span>
+          </div>
+          <h1 className="mt-6 max-w-2xl text-4xl text-white font-medium leading-[1.08] tracking-tight sm:text-5xl">
+            {active ? active.nom : "Équipements et consommables médicaux"}
+          </h1>
+          <p className="mt-5 max-w-xl text-sm leading-relaxed text-primary-foreground/70 sm:text-base">
+            {active
+              ? active.description
+              : "Bloc opératoire, diagnostic, mobilier hospitalier, soins intensifs, consommables et stérilisation. Les références présentées sont représentatives — l'offre est constituée selon les spécifications de chaque cahier des charges."}
+          </p>
+        </div>
+      </section>
 
       <PulseDivider />
-      <section className="clinical-section py-14 sm:py-16">
-        <div className="container-fz grid gap-10 lg:grid-cols-[260px_minmax(0,1fr)]">
+
+      <section className="clinical-section py-16 sm:py-20">
+        <div className="container-fz grid gap-14 lg:grid-cols-[260px_minmax(0,1fr)]">
+          {/* SIDEBAR — typographic index, not thumbnail buttons */}
           <aside className="section-reveal lg:sticky lg:top-28 lg:self-start">
-            <h2 className="font-display text-sm font-bold tracking-widest text-charcoal uppercase">
+            <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
               Catégories
-            </h2>
-            <div className="mt-4 flex flex-wrap gap-2 lg:flex-col">
+            </p>
+            <nav className="mt-5 border-t border-border">
               <Link
                 to="/equipements"
                 search={{}}
-                className={`rounded-md border px-3 py-2 text-left font-display text-sm font-semibold transition-colors ${
-                  categorie
-                    ? "border-border text-charcoal hover:border-accent hover:text-accent"
-                    : "border-accent bg-accent-soft text-accent"
+                className={`group flex items-baseline justify-between gap-3 border-b border-border py-3.5 transition-colors ${
+                  categorie ? "text-charcoal" : "text-accent"
                 }`}
               >
-                Toutes les catégories
+                <span className="font-display text-sm font-semibold">Toutes les catégories</span>
+                <span className="font-display text-xs tabular-nums text-muted-foreground">
+                  {String(equipements.length).padStart(2, "0")}
+                </span>
               </Link>
-              {categories.map((item) => (
+              {categories.map((item, i) => (
                 <Link
                   key={item.id}
                   to="/equipements"
                   search={{ categorie: item.id }}
-                  className={`rounded-md border px-3 py-2 text-left font-display text-sm font-semibold transition-colors ${
-                    categorie === item.id
-                      ? "border-accent bg-accent-soft text-accent"
-                      : "border-border text-charcoal hover:border-accent hover:text-accent"
+                  className={`group flex items-baseline justify-between gap-3 border-b border-border py-3.5 transition-colors ${
+                    categorie === item.id ? "text-accent" : "text-charcoal hover:text-accent"
                   }`}
                 >
-                  {item.nom}
+                  <span className="flex items-baseline gap-3">
+                    <span className="font-display text-xs tabular-nums text-muted-foreground/60">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="font-display text-sm font-medium">{item.nom}</span>
+                  </span>
+                  <span className="font-display text-xs tabular-nums text-muted-foreground">
+                    {String(countFor(item.id)).padStart(2, "0")}
+                  </span>
                 </Link>
               ))}
+            </nav>
+
+            <div className="mt-8 border-l-2 border-accent pl-4">
+              <p className="font-display text-sm font-semibold text-charcoal">Un lot spécifique ?</p>
+              <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">
+                Envoyez-nous le cahier des charges — nous identifions les références correspondantes.
+              </p>
+              <Link
+                to="/contact"
+                className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:opacity-70"
+              >
+                Nous contacter <ArrowRight size={13} />
+              </Link>
             </div>
           </aside>
 
+          {/* REFERENCE LIST — numbered dossier entries, not a card grid */}
           <div className="section-reveal">
-            <div className="grid gap-4 border-b border-border pb-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-end">
-              <div className="min-w-0">
-                <h2 className="text-xl sm:text-2xl">
-                  {active ? active.nom : "Toutes les références"}
-                </h2>
-                {active && (
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {active.description}
-                  </p>
-                )}
+            {liste.length === 0 ? (
+              <div className="border-t border-dashed border-border py-16 text-center">
+                <p className="font-display text-base font-semibold text-charcoal">
+                  Aucune référence dans cette catégorie
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Contactez-nous pour un besoin spécifique — nous complétons l'offre selon le cahier des charges.
+                </p>
               </div>
-              <p className="text-sm text-muted-foreground">
-                {liste.length} référence{liste.length > 1 ? "s" : ""}
+            ) : (
+              <div className="border-t border-border">
+                {liste.map((equipement, i) => {
+                  const cat = categories.find((c) => c.id === equipement.categorie);
+                  return (
+                    <Link
+                      key={equipement.id}
+                      to="/equipements/$id"
+                      params={{ id: equipement.id }}
+                      className="group flex items-center gap-4 border-b border-border py-4 transition-colors hover:bg-secondary/40 sm:gap-6 sm:py-5"
+                    >
+                      <span className="w-6 shrink-0 font-display text-xs tabular-nums text-muted-foreground/50 sm:w-8 sm:text-sm">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <span className="h-14 w-14 shrink-0 overflow-hidden rounded-md bg-secondary sm:h-16 sm:w-16">
+                        <img
+                          src={equipement.image}
+                          alt=""
+                          role="presentation"
+                          loading="lazy"
+                          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block truncate font-display text-sm font-semibold text-charcoal group-hover:text-accent sm:text-base">
+                          {equipement.nom}
+                        </span>
+                        {cat && (
+                          <span className="mt-0.5 block text-xs text-muted-foreground">{cat.nom}</span>
+                        )}
+                      </span>
+                      <ArrowRight
+                        size={16}
+                        className="shrink-0 text-muted-foreground/40 transition-all group-hover:translate-x-1 group-hover:text-accent"
+                      />
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      <PulseDivider />
+
+      {/* METHODOLOGY — real positioning content, not filler: how a reference actually qualifies for a tender */}
+      <section className="clinical-section-soft py-16 sm:py-20">
+        <div className="container-fz">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            Comment nous constituons l'offre
+          </p>
+          <h2 className="mt-3 max-w-xl text-2xl font-medium tracking-tight sm:text-3xl">
+            Une référence n'entre au catalogue qu'après vérification
+          </h2>
+          <div className="mt-10 grid gap-x-8 gap-y-10 border-t border-border pt-10 sm:grid-cols-3">
+            <div>
+              <ClipboardCheck size={20} className="text-accent" />
+              <h3 className="mt-4 text-base font-medium">Correspondance technique</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Chaque référence est confrontée aux exigences réelles d'un cahier des charges —
+                puissance, dimensions, normes — avant d'être proposée.
               </p>
             </div>
-
-            <div className="mt-6 grid auto-rows-[minmax(0,1fr)] gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {liste.map((equipement) => (
-                <div
-                  key={equipement.id}
-                  className={liste.length > 3 && equipement === liste[0] ? "sm:col-span-2" : ""}
-                >
-                  <EquipementCard equipement={equipement} />
-                </div>
-              ))}
+            <div>
+              <BadgeCheck size={20} className="text-accent" />
+              <h3 className="mt-4 text-base font-medium">Certificat d'enregistrement</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Nous privilégions le matériel couvert par un certificat d'enregistrement valide —
+                condition d'éligibilité déterminante selon les exigences de chaque acheteur public.
+              </p>
             </div>
+            <div>
+              <FileText size={20} className="text-accent" />
+              <h3 className="mt-4 text-base font-medium">Documentation officielle</h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                Brochures et manuels constructeur sont fournis avec chaque référence, pour permettre
+                à l'acheteur de vérifier lui-même la conformité proposée.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <PulseDivider />
+
+      {/* CROSS-LINKS — every category listed, so the catalogue reads complete even when filtered */}
+      <section className="clinical-section py-16 sm:py-20">
+        <div className="container-fz">
+          <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+            L'ensemble du catalogue
+          </p>
+          <h2 className="mt-3 text-2xl font-medium tracking-tight sm:text-3xl">Nos autres domaines</h2>
+          <div className="mt-8 grid gap-px overflow-hidden rounded-lg border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
+            {categories
+              .filter((c) => c.id !== categorie)
+              .map((c) => (
+                <Link
+                  key={c.id}
+                  to="/equipements"
+                  search={{ categorie: c.id }}
+                  className="group flex items-center justify-between gap-3 bg-background p-5 transition-colors hover:bg-secondary/50"
+                >
+                  <span>
+                    <span className="block font-display text-sm font-semibold text-charcoal group-hover:text-accent">
+                      {c.nom}
+                    </span>
+                    <span className="mt-0.5 block text-xs text-muted-foreground">
+                      {countFor(c.id)} référence{countFor(c.id) > 1 ? "s" : ""}
+                    </span>
+                  </span>
+                  <ArrowRight
+                    size={15}
+                    className="shrink-0 text-muted-foreground/40 transition-all group-hover:translate-x-1 group-hover:text-accent"
+                  />
+                </Link>
+              ))}
           </div>
         </div>
       </section>

@@ -1,15 +1,16 @@
 import { Link } from "@tanstack/react-router";
-import { Menu, X } from "lucide-react";
+import { Building2, FileText, Home, Info, Menu, Phone, X } from "lucide-react";
 import { useState } from "react";
 
-import logo from "@/assets/fzana-logo.png.asset.json";
+import logo from "@/assets/fzana-logo.png";
+import { EcgLine } from "@/components/BrandMotion";
 
 const liens = [
-  { to: "/", label: "Accueil" },
-  { to: "/equipements", label: "Équipements" },
-  { to: "/marches-publics", label: "Marchés Publics" },
-  { to: "/a-propos", label: "À propos" },
-  { to: "/contact", label: "Contact" },
+  { to: "/", label: "Accueil", icone: Home },
+  { to: "/equipements", label: "Équipements", icone: FileText },
+  { to: "/marches-publics", label: "Marchés Publics", icone: Building2 },
+  { to: "/a-propos", label: "À propos", icone: Info },
+  { to: "/contact", label: "Contact", icone: Phone },
 ] as const;
 
 export default function Navbar() {
@@ -20,7 +21,7 @@ export default function Navbar() {
       <div className="container-fz grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 py-3 lg:flex lg:justify-between">
         <Link to="/" className="flex min-w-0 items-center" onClick={() => setOuvert(false)}>
           <img
-            src={logo.url}
+            src={logo}
             alt="FZANA Systems"
             width={200}
             height={62}
@@ -34,17 +35,19 @@ export default function Navbar() {
               key={lien.to}
               to={lien.to}
               activeOptions={{ exact: lien.to === "/" }}
-              activeProps={{ className: "text-accent" }}
+              activeProps={{ className: "text-accent [&>span]:w-full" }}
               inactiveProps={{ className: "text-charcoal hover:text-accent" }}
-              className="font-display text-sm font-semibold transition-colors"
+              className="group relative py-1 font-display text-sm font-semibold transition-colors"
             >
               {lien.label}
+              <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-accent transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-2">
           <Link to="/contact" className="btn-base btn-primary hidden lg:inline-flex">
+            <FileText size={16} />
             Demander un devis
           </Link>
           <button
@@ -58,6 +61,11 @@ export default function Navbar() {
         </div>
       </div>
 
+      {/* brand pulse-line accent — reuses the same ECG motif from the hero, now anchoring the header too */}
+      <div className="relative h-2 overflow-hidden border-t border-border/60">
+        <EcgLine className="absolute inset-x-0 -top-2 h-6 opacity-50" />
+      </div>
+
       {ouvert && (
         <nav className="border-t border-border bg-background lg:hidden">
           <div className="container-fz flex flex-col py-2">
@@ -67,10 +75,11 @@ export default function Navbar() {
                 to={lien.to}
                 onClick={() => setOuvert(false)}
                 activeOptions={{ exact: lien.to === "/" }}
-                activeProps={{ className: "text-accent" }}
-                inactiveProps={{ className: "text-charcoal" }}
-                className="border-b border-border py-3 font-display text-sm font-semibold last:border-0"
+                activeProps={{ className: "border-l-accent text-accent" }}
+                inactiveProps={{ className: "border-l-transparent text-charcoal" }}
+                className="flex items-center gap-3 border-b border-l-2 border-border py-3 pl-3 font-display text-sm font-semibold transition-colors last:border-b-0"
               >
+                <lien.icone size={16} className="shrink-0 text-accent" />
                 {lien.label}
               </Link>
             ))}
@@ -79,6 +88,7 @@ export default function Navbar() {
               onClick={() => setOuvert(false)}
               className="btn-base btn-primary my-3"
             >
+              <FileText size={16} />
               Demander un devis
             </Link>
           </div>
